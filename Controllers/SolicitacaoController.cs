@@ -19,10 +19,10 @@ namespace WebApplication1.Controllers
 
         [HttpGet(Name = "GetSolicitacao")]
         public IEnumerable<Solicitacao> Get()
-        { 
+        {
             var solicitacao1 = new Solicitacao
             {
-                Status = StatusSolicitacaoEnum.Reaberto,
+                Status = StatusSolicitacaoEnum.Resolvido,
                 Prioridade = PrioridadeEnum.Alta
             };
 

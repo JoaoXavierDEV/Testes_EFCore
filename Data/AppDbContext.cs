@@ -1,10 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using WebApplication1.Models;
-using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using System.ComponentModel;
-using System.Reflection;
-using System.Linq;
-using WebApplication1.Extensions;
 
 namespace WebApplication1.Data
 {
@@ -17,7 +12,9 @@ namespace WebApplication1.Data
         }
 
         public DbSet<Solicitacao> Solicitacoes => Set<Solicitacao>();
-        public DbSet<StatusSolicitacao> Statuses => Set<StatusSolicitacao>();
+        public DbSet<StatusSolicitacao> Status => Set<StatusSolicitacao>();
+        public DbSet<Relatorio> Relatorios { get; set; }
+        public DbSet<Departamento> Departamentos { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -38,8 +35,7 @@ namespace WebApplication1.Data
                 new StatusSolicitacao { Id = (int)StatusSolicitacaoEnum.Resolvido, Descricao = nameof(StatusSolicitacaoEnum.Resolvido) },
                 new StatusSolicitacao { Id = (int)StatusSolicitacaoEnum.Finalizado, Descricao = nameof(StatusSolicitacaoEnum.Finalizado) },
                 new StatusSolicitacao { Id = (int)StatusSolicitacaoEnum.EmAnalise, Descricao = nameof(StatusSolicitacaoEnum.EmAnalise) },
-                new StatusSolicitacao { Id = (int)StatusSolicitacaoEnum.Recusado, Descricao = nameof(StatusSolicitacaoEnum.Recusado) },
-                new StatusSolicitacao { Id = (int)StatusSolicitacaoEnum.Reaberto, Descricao = nameof(StatusSolicitacaoEnum.Reaberto) }
+                new StatusSolicitacao { Id = (int)StatusSolicitacaoEnum.Recusado, Descricao = nameof(StatusSolicitacaoEnum.Recusado) }
             );
 
             var solicitacao = modelBuilder.Entity<Solicitacao>();
@@ -81,6 +77,30 @@ namespace WebApplication1.Data
                        .WithMany(s => s.Solicitacoes)
                        .HasForeignKey("_idStatusSolicitacao")
                        .OnDelete(DeleteBehavior.Restrict);
+
+
+
+            modelBuilder.Entity<Relatorio>()
+                .HasOne(r => r.Departamento)
+                .WithMany() // sem navegação inversa
+                .HasForeignKey(r => r.DepartamentoId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            modelBuilder.Entity<DepartamentoRelatorio>(entity =>
+            {
+                entity.HasOne(rd => rd.Relatorio)
+                    .WithMany(r => r.DepartamentoRelatorio)
+                    .HasForeignKey(rd => rd.RelatorioId)
+                    .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(rd => rd.Departamento)
+                    .WithMany(d => d.DepartamentoRelatorio)
+                    .HasForeignKey(rd => rd.DepartamentoId)
+                    .OnDelete(DeleteBehavior.Restrict);
+            });
+
+
+            //base.OnModelCreating(modelBuilder);
         }
     }
 }
