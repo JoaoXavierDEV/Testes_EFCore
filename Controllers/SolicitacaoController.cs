@@ -22,12 +22,14 @@ namespace WebApplication1.Controllers
         {
             var solicitacao1 = new Solicitacao
             {
+                Nome = "Ajuste de sistema",
                 Status = StatusSolicitacaoEnum.Resolvido,
                 Prioridade = PrioridadeEnum.Alta
             };
 
             var solicitacao2 = new Solicitacao
             {
+                Nome = "Atualização de software",
                 Status = StatusSolicitacaoEnum.Finalizado,
                 Prioridade = PrioridadeEnum.Urgente
             };

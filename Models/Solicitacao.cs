@@ -4,6 +4,7 @@ namespace WebApplication1.Models;
 
 public class Solicitacao : BaseEntity
 {
+    public string Nome { get; set; }
     // Campo persistido no banco de dados.
     private int _idStatusSolicitacao;
 
