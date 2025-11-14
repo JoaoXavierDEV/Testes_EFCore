@@ -25,6 +25,11 @@ public enum StatusSolicitacaoEnum
 }
 ```
 
+Resumo Enum
+Será utilizado uma tabela "StatusSolicitacao" para persistir os valores do Enum 
+mas a Classe terá o idStatusSocilitacao privado e irá converter no Enum correspondente
+
+
 ### Classe de domínio usando shadow property
 ```csharp
 public class Solicitacao : BaseEntity
